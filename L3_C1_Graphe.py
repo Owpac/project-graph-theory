@@ -11,6 +11,7 @@ class Graphe:
     aretes: Dict[int, list]
     matrice_adjascence: List[List[bool]]
     matrice_valeurs: List[List[int]]
+    djikstra_possible: bool
 
     def __init__(self, numero: int) -> None:
         self.numero = numero
@@ -37,6 +38,8 @@ class Graphe:
         # On commence avec des sommets sans aucune arêtes
         self.aretes = {i: list() for i in range(self.nombre_sommets)}
 
+        self.djikstra_possible = True
+
         print(f'Le graphe possède {self.nombre_sommets} sommets.')
         # Initialisation des arêtes
         for line in lines[1:]:
@@ -46,6 +49,10 @@ class Graphe:
             print(f'Arête: de {depart} vers {arrivee}, de valeur {valeur}')
             arete = Arete(depart, valeur, arrivee)
             self.aretes[depart].append(arete)
+
+            # Une arête à valeur négative signifie qu'on ne peut pas utiliser Djikstra sur le graphe
+            if valeur < 0:
+                self.djikstra_possible = False
 
     def initialiser_matrices(self) -> None:
         """
@@ -71,3 +78,9 @@ class Graphe:
                 else:
                     print("{:^3}".format(cell), end='')
             print()
+
+    def djikstra(self, depart: int):
+        pass
+
+    def bellman(self, depart: int):
+        pass
