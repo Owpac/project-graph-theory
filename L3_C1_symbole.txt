@@ -3,5 +3,7 @@ symbole | UNICODE
 ∞  		U+221E
 •		U+2022
 
+//Pour la matrice de valeur, remplacer les 0 par trait ou vide
+
 
 
