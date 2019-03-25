@@ -1,0 +1,7 @@
+symbole | UNICODE
+
+∞  		U+221E
+•		U+2022
+
+
+
