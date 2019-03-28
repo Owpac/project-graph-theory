@@ -1,5 +1,5 @@
-from typing import Dict, List
-from itertools import product
+from typing import Dict, List, Set, Optional
+from L3_C1_Djikstra import DjikstraResolveur
 
 from L3_C1_Arete import Arete
 
@@ -7,10 +7,10 @@ from L3_C1_Arete import Arete
 class Graphe:
     numero: int
     nombre_sommets: int
-    sommets: set
+    sommets: Set[int]
     aretes: Dict[int, list]
     matrice_adjascence: List[List[bool]]
-    matrice_valeurs: List[List[int]]
+    matrice_valeurs: List[List[Optional[int]]]
     djikstra_possible: bool
 
     def __init__(self, numero: int) -> None:
@@ -80,7 +80,13 @@ class Graphe:
             print()
 
     def djikstra(self, depart: int):
-        pass
+        resolveur = DjikstraResolveur(self.matrice_valeurs, self.sommets)
+        resolveur.resoudre(depart)
+        print(resolveur)
+
+        resultat, cc = resolveur.resultat()
+        print('Valeurs:', *resultat)
+        print('Chemins Courts:', *())
 
     def bellman(self, depart: int):
         pass

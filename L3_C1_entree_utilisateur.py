@@ -24,7 +24,7 @@ def demander_nombre(mini: int = None, maxi: int = None) -> int:
     Demande un nombre à l'utilisateur, situé entre min et max.
     :param mini: le minimum
     :param maxi: le maximum
-    :return:
+    :return: le nombre entrée par l'utilisateur
     """
     message = 'Veuillez rentrer un nombre:'
     if mini is not None and maxi is not None:
