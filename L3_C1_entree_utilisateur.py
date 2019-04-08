@@ -19,7 +19,7 @@ def poser_question(question: str) -> bool:
         print('Réponse incorrecte. Veuillez rentrer : oui/non, 1/0, o/n')
 
 
-def demander_nombre(mini=None, maxi=None) -> int:
+def demander_nombre(mini: int = None, maxi: int = None) -> int:
     """
     Demande un nombre à l'utilisateur, situé entre min et max.
     :param mini: le minimum
