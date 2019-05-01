@@ -1,53 +1,7 @@
-from typing import List, Set, Optional, Dict
-
+from typing import List, Set, Optional
 from copy import copy
 
-
-class Cellule:
-    valeur: int
-    final: bool
-    infini: bool
-    sommet_precedent: Optional[int]
-
-    def __init__(self, valeur: int, *, final=False, infini=False, sommet_precedent: Optional[int] = None):
-        self.valeur = valeur
-        self.final = final
-        self.infini = infini
-        self.sommet_precedent = sommet_precedent
-
-    def __eq__(self, other: 'Cellule'):
-        return (self.infini == other.infini) or (self.valeur == other.valeur)
-
-    def __lt__(self, other: 'Cellule'):
-        # Deux infinis ne sont pas inférieurs l'un à l'autre
-        if other.infini and self.infini:
-            return False
-
-        # Si le nombre actuel est infini et l'autre non, alors il n'est pas inférieur
-        if self.infini and not other.infini:
-            return False
-
-        # Si le nombre actuel n'est pas infini mais l'autre si, alors il est inférieur
-        if other.infini and not self.infini:
-            return True
-
-        return self.valeur < other.valeur
-
-    def __le__(self, other: 'Cellule'):
-        return self < other or self == other
-
-    def __gt__(self, other: 'Cellule'):
-        return not self <= other
-
-    def __ge__(self, other: 'Cellule'):
-        return not self < other
-
-    def __str__(self):
-        if self.infini:
-            return '∞'
-        if self.final:
-            return '•'
-        return f'{self.valeur}({self.sommet_precedent})'
+from L3_C1_Cellule import Cellule
 
 
 class DjikstraResolveur:
@@ -90,15 +44,15 @@ class DjikstraResolveur:
         # On bloque l'ancienne cellule
         ligne_actuelle[self.dernier_sommet_ajoute].final = True
 
-        for sommet, valeur in enumerate(valeurs):
-            # Si on est à la 1ère ligne, l'ancienne ligne n'est composée que de valeurs infinies
+        for sommet, valeur_sommet in enumerate(valeurs):
             cellule_precedente = ligne_actuelle[sommet]
 
-            # La valeur actuelle est celle de la matrice de valeurs. Si il n'y a pas de valeur, alors c'est un infini.
-            if valeur is None:
+            # La valeur du sommet est
+            # Valeur = None signifie que la valeur du sommet est infinie
+            if valeur_sommet is None:
                 cellule_actuelle = Cellule(0, final=False, infini=True)
             else:
-                cellule_actuelle = Cellule(valeur + self.valeur_cc, final=False, infini=False,
+                cellule_actuelle = Cellule(valeur_sommet + self.valeur_cc, final=False, infini=False,
                                            sommet_precedent=self.dernier_sommet_ajoute)
 
             # Si la nouvelle valeur est plus petite que l'ancienne valeur, et que celle-ci n'est pas finale, on remplace
