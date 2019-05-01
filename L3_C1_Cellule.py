@@ -1,5 +1,5 @@
 # Created by Florian on 17/04/2019
-from typing import Optional
+from typing import Optional, Union
 
 
 class Cellule:
@@ -14,10 +14,16 @@ class Cellule:
         self.infini = infini
         self.sommet_precedent = sommet_precedent
 
-    def __eq__(self, other: 'Cellule'):
-        return (self.infini == other.infini) or (self.valeur == other.valeur)
+    def __eq__(self, other: Union['Cellule', int]):
+        if isinstance(other, int):
+            return self.valeur == other
 
-    def __lt__(self, other: 'Cellule'):
+        return (self.infini == other.infini) and (self.valeur == other.valeur)
+
+    def __lt__(self, other: Union['Cellule', int]):
+        if isinstance(other, int):
+            return not self.infini and self.valeur < other
+
         # Deux infinis ne sont pas inférieurs l'un à l'autre
         if other.infini and self.infini:
             return False

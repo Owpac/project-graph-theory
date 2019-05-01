@@ -2,19 +2,22 @@ from typing import List, Set, Optional
 from copy import copy
 
 from L3_C1_Cellule import Cellule
+from L3_C1_affichage_graphe import affichage_matrice
 
 
 class DjikstraResolveur:
     sommets: Set[int]
+    liste_sommets: List[int]
     matrice_valeurs: List[List[int]]
     cc: List[int]
     valeur_cc: int
     dernier_sommet_ajoute: int
     matrice_djikstra: List[List[Cellule]]
 
-    def __init__(self, matrice_valeurs: List[List[int]], sommets: Set[int]):
+    def __init__(self, matrice_valeurs: List[List[int]], liste_sommets: List[int]):
         self.matrice_valeurs = matrice_valeurs
-        self.sommets = sommets
+        self.liste_sommets = liste_sommets
+        self.sommets = set(liste_sommets)
         self.cc = []
         self.matrice_djikstra = []
         self.valeur_cc = 0
@@ -29,7 +32,23 @@ class DjikstraResolveur:
         self.matrice_djikstra[0][depart].infini = False
 
         for _ in range(len(self.sommets)):
+            # On crée la nouvelle ligne de l'algorithme
             self.prochaine_ligne()
+
+            # On regarde si tous les sommets restants ont une valeur infinie
+            # (ne sont pas accessibles depuis le sommet de départ).
+            # Si oui, on peut arrêter l'algorithme.
+            sommets_accessibles = list(
+                filter(lambda cellule: not cellule.final and not cellule.infini, self.matrice_djikstra[-1]))
+
+            # S'il n'y a aucun sommet accessible, fin de l'algo
+            if not sommets_accessibles:
+                # Toutes les valeurs de la dernière ligne sont finales
+                for sommet in self.matrice_djikstra[-1]:
+                    sommet.final = True
+                break
+
+            # On cherche le sommet à la valeur de chemin minimum, et on l'ajoute au CC
             self.ajouter_sommet_minimum()
 
         return self.matrice_djikstra[-1]
@@ -75,15 +94,29 @@ class DjikstraResolveur:
         self.valeur_cc = sommet_min.valeur
         self.dernier_sommet_ajoute = numero_sommet_min
 
-    def __repr__(self) -> str:
-        representation = []
-        for i, ligne in enumerate(self.matrice_djikstra):
-            representation.append(str(self.cc[:i]) + ': ' + ' '.join(str(cell) for cell in ligne))
+    def afficher_tableau(self) -> None:
+        # Affichage du tableau de l'algorithme
+        titres_lignes = [self.cc[:i] for i in range(len(self.cc) + 1)]
+        titres_lignes = [', '.join(str(sommet) for sommet in cc) for cc in titres_lignes]
+        affichage_matrice(self.matrice_djikstra, self.liste_sommets, titres_lignes, {}, titre="CC")
 
-        return '\n'.join(representation)
+    def afficher_resultat(self):
+        valeurs, ccs = self.resultat()
+        ccs = [None if cc is None else ' '.join(str(sommet) for sommet in cc) for cc in ccs]
+        matrice = [ccs, [v if v.infini else v.valeur for v in valeurs]]
+        affichage_matrice(matrice, self.liste_sommets, ['CC', 'Distance'], {None: '/'}, titre="Sommets")
 
     def resultat(self):
+        """
+        :return: En premier, la valeur des chemins courts dans l'ordre des sommets
+                 En deuxième, les chemins courts nécessaires pour accéder aux sommets
+        """
+
         def chemin_court(resultat: List[Cellule], sommet: int):
+            # Si le sommet n'est pas accessible
+            if self.matrice_djikstra[-1][sommet].infini:
+                return None
+
             sommet_precedent = resultat[sommet].sommet_precedent
             if sommet_precedent == sommet:
                 return [sommet]

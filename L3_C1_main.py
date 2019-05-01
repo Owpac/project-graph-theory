@@ -6,18 +6,16 @@ from L3_C1_Graphe import Graphe
 
 def main():
     continuer = True
-
-    matrice = [[None, 902178791728930, 0], [True, 1, 1], [2, 2, 2]]
-    titre_col = ["c1", "c2", "c3"]
-    titre_lig = ["l1", "l2", "l3"]
-    symbole = {None: '-', True: 'TRUE', False: 'FALSE'}
-
-    affichage_matrice(matrice, titre_col, titre_lig, symbole)
+    nombre_graphes = 10
+    print('Chargement des graphes...')
+    graphes = {numero: Graphe(numero) for numero in range(1, nombre_graphes)}
+    print('Tous les graphes sont chargés en mémoire.')
 
     while continuer:
-        print("Quel graphe voulez-vous charger ?")
-        numero = demander_nombre(0, 15)
-        graphe = Graphe(numero)
+        print("Quel graphe voulez-vous tester ?")
+        numero = demander_nombre(1, nombre_graphes)
+        graphe = graphes[numero]
+        graphe.afficher()
 
         print('====== Calcul du plus court chemin ======')
         algo_choisi = 2
