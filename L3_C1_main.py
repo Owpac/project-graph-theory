@@ -1,10 +1,19 @@
 from L3_C1_entree_utilisateur import poser_question, demander_nombre
+from L3_C1_affichage_graphe import affichage_matrice
 
 from L3_C1_Graphe import Graphe
 
 
 def main():
     continuer = True
+
+    matrice = [[None, 902178791728930, 0], [True, 1, 1], [2, 2, 2]]
+    titre_col = ["c1", "c2", "c3"]
+    titre_lig = ["l1", "l2", "l3"]
+    symbole = {None: '-', True: 'TRUE', False: 'FALSE'}
+
+    affichage_matrice(matrice, titre_col, titre_lig, symbole)
+
     while continuer:
         print("Quel graphe voulez-vous charger ?")
         numero = demander_nombre(0, 15)

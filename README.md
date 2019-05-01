@@ -1,4 +1,4 @@
-# Introduction:
+# Introduction
 
 Little Graph Theory Project in Python.
 
