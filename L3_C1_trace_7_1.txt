@@ -1,0 +1,14 @@
+Vous avez choisi l'algorithme de Bellman, partant du sommet 1
+
+Déroulement de l'algorithme de Bellman:
++---+-------+-------+-------+-------+-------+
+| k |   0   |   1   |   2   |   3   |   4   |
++---+-------+-------+-------+-------+-------+
+| 0 |   ∞   |  0(1) |   ∞   |   ∞   |   ∞   |
+| 1 |   ∞   |  0(1) |  2(1) |  6(1) | 11(1) |
+| 2 |  0(4) |  0(1) |  2(1) |  5(2) | 10(2) |
+| 3 | -1(4) |  0(1) |  2(1) |  5(2) |  9(3) |
+| 4 | -2(4) |  0(1) |  2(1) |  5(2) |  9(3) |
++---+-------+-------+-------+-------+-------+
+Impossible de continuer plus loin : présence d'un circuit absorbant.
+
