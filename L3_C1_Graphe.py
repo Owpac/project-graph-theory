@@ -1,10 +1,10 @@
 from typing import Dict, List, Set, Optional
 
 from L3_C1_Bellman import BellmanSolveur
-from L3_C1_Djikstra import DjikstraResolveur
+from L3_C1_Dijkstra import DijkstraResolveur
 from L3_C1_Arete import Arete
 
-from L3_C1_affichage_graphe import affichage_matrice
+from L3_C1_affichage import affichage_matrice
 
 
 class Graphe:
@@ -15,14 +15,16 @@ class Graphe:
     aretes: Dict[int, list]
     matrice_adjascence: List[List[bool]]
     matrice_valeurs: List[List[Optional[int]]]
-    djikstra_possible: bool
+    dijkstra_possible: bool
 
     def __init__(self, numero: int) -> None:
         self.numero = numero
-        self.lire_fichier()
-        self.initialiser_matrices()
+        print(f"Chargement du graphe numéro {numero} en mémoire...")
+        self._lire_fichier()
+        print("Graphe chargé.")
+        self._initialiser_matrices()
 
-    def lire_fichier(self) -> None:
+    def _lire_fichier(self) -> None:
         """
         Lit le graphe depuis un fichier.
         Initialise :
@@ -32,6 +34,8 @@ class Graphe:
         """
 
         # Lecture du fichier
+        nom_fichier = f'L3_C1_{self.numero}.txt'
+        print(f'Lecture depuis le fichier "{nom_fichier}".')
         with open(f'L3_C1_{self.numero}.txt') as f:
             lines = f.read().strip().split('\n')
 
@@ -44,7 +48,7 @@ class Graphe:
         # On commence avec des sommets sans aucune arêtes
         self.aretes = {i: list() for i in range(self.nombre_sommets)}
 
-        self.djikstra_possible = True
+        self.dijkstra_possible = True
 
         # Initialisation des arêtes
         for line in lines[1:]:
@@ -54,11 +58,11 @@ class Graphe:
             arete = Arete(depart, valeur, arrivee)
             self.aretes[depart].append(arete)
 
-            # Une arête à valeur négative signifie qu'on ne peut pas utiliser Djikstra sur le graphe
+            # Une arête à valeur négative signifie qu'on ne peut pas utiliser Dijkstra sur le graphe
             if valeur < 0:
-                self.djikstra_possible = False
+                self.dijkstra_possible = False
 
-    def initialiser_matrices(self) -> None:
+    def _initialiser_matrices(self) -> None:
         """
         Initialise la matrice d'adjascence, et la matrice de valeurs
         """
@@ -70,32 +74,41 @@ class Graphe:
                 self.matrice_adjascence[depart][arete.arrivee] = True
                 self.matrice_valeurs[depart][arete.arrivee] = arete.valeur
 
-    def afficher(self):
-        print(f'Le graphe possède {self.nombre_sommets} sommets.')
+    def dijkstra(self, depart: int) -> str:
+        """
+        Effectue l'algorithme de Dijkstra sur le graphe, depuis un sommet donné.
+        :param depart: Le sommet à partir duquel effectuer l'algorithme.
+        :return: Une représentation sous forme de string du déroulement et du résultat de l'algorithme.
+        """
+        resolveur = DijkstraResolveur(self.matrice_valeurs, self.liste_sommets)
+        return resolveur.resoudre(depart)
+
+    def bellman(self, depart: int) -> str:
+        """
+        Effectue l'algorithme de Bellman sur le graphe, depuis un sommet donné.
+        :param depart: Le sommet à partir duquel effectuer l'algorithme.
+        :return: Une représentation sous forme de string du déroulement et du résultat de l'algorithme.
+        """
+        solveur = BellmanSolveur(self.matrice_valeurs, self.liste_sommets)
+        return solveur.resoudre(depart)
+
+    def afficher(self) -> str:
+        """
+        Crée l'affichage du graphe, incluant ses arêtes, sa matrice d'adjascence et sa matrice de valeurs
+        :return: l'affichage du graphe
+        """
+        affichage = f'Le graphe possède {self.nombre_sommets} sommets.\n'
 
         for depart, aretes in self.aretes.items():
-            print(f'Arêtes au départ de {depart}:')
+            affichage += f'Arêtes au départ de {depart}:\n'
             for arete in aretes:
-                print(f'\t-> Arête vers {arete.arrivee}, de valeur {arete.valeur}')
+                affichage += f'\t-> Arête vers {arete.arrivee}, de valeur {arete.valeur}\n'
 
-        print("\nMatrice d'adjascence:")
-        affichage_matrice(self.matrice_adjascence, self.liste_sommets, self.liste_sommets, {False: '0', True: '1'})
+        affichage += "\nMatrice d'adjascence:\n"
+        affichage += affichage_matrice(self.matrice_adjascence, self.liste_sommets, self.liste_sommets,
+                                       {False: '0', True: '1'})
 
-        print('\nMatrice de valeurs:')
-        affichage_matrice(self.matrice_valeurs, self.liste_sommets, self.liste_sommets, {None: ''})
-        print()
-
-
-    def djikstra(self, depart: int):
-        resolveur = DjikstraResolveur(self.matrice_valeurs, self.liste_sommets)
-        resolveur.resoudre(depart)
-        print("Déroulement de l'algorithme :")
-        resolveur.afficher_tableau()
-
-        print('Résultat :')
-        resolveur.afficher_resultat()
-
-
-    def bellman(self, depart: int):
-        solveur = BellmanSolveur(self.matrice_valeurs, self.liste_sommets)
-        solveur.resoudre(depart)
+        affichage += '\nMatrice de valeurs:\n'
+        affichage += affichage_matrice(self.matrice_valeurs, self.liste_sommets, self.liste_sommets, {None: ''})
+        affichage += '\n'
+        return affichage
