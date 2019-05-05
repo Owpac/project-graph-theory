@@ -96,16 +96,12 @@ class Graphe:
         Crée l'affichage du graphe, incluant ses arêtes, sa matrice d'adjascence et sa matrice de valeurs
         :return: l'affichage du graphe
         """
-        affichage = f'Le graphe possède {self.nombre_sommets} sommets.\n'
-
-        for depart, aretes in self.aretes.items():
-            affichage += f'Arêtes au départ de {depart}:\n'
-            for arete in aretes:
-                affichage += f'\t-> Arête vers {arete.arrivee}, de valeur {arete.valeur}\n'
+        affichage = f"==== Graphe n°{self.numero} ====\n"
+        affichage += f'Le graphe possède {self.nombre_sommets} sommets.\n'
 
         affichage += "\nMatrice d'adjascence:\n"
         affichage += affichage_matrice(self.matrice_adjascence, self.liste_sommets, self.liste_sommets,
-                                       {False: '0', True: '1'})
+                                       {False: ' ', True: '1'})
 
         affichage += '\nMatrice de valeurs:\n'
         affichage += affichage_matrice(self.matrice_valeurs, self.liste_sommets, self.liste_sommets, {None: ''})
