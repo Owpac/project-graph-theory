@@ -68,7 +68,7 @@ class BellmanSolveur:
 
         # Aucune sortie n'a été effectuée dans la boucle. Il ya donc un circuit absorbant.
         affichage = "Déroulement de l'algorithme de Bellman:\n"
-        affichage += affichage_matrice(self.pi, self.sommets, list(range(len(self.sommets))), titre='k')
+        affichage += affichage_matrice(self.pi, self.sommets, list(range(len(self.pi))), titre='k')
         affichage += "Impossible de continuer plus loin : présence d'un circuit absorbant." + "\n"
         return affichage
 
