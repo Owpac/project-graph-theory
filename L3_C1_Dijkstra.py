@@ -51,53 +51,60 @@ class DijkstraResolveur:
         self.matrice_dijkstra[0][depart].valeur = 0
         self.matrice_dijkstra[0][depart].infini = False
 
-        # On sait que l'algorithme va demander un nombre d'itérations au maximum égal au nombre de sommets
-        for _ in range(len(self.sommets)):
+        # On sait que l'algorithme va demander un nombre d'itérations au maximum égal au nombre de sommets.
+        # Donc, pour chaque sommet :
+        for _ in self.sommets:
             # On crée la nouvelle ligne de la matrice de dijkstra (pi)
             self._prochaine_ligne()
 
-            # On regarde si tous les sommets restants ont une valeur infinie
-            # (ne sont pas accessibles depuis le sommet de départ).
-            # Si oui, on peut arrêter l'algorithme.
+            # On récupère la liste des sommets accessibles mais pas encore dans le CC
+            # à cette étape-ci de l'algorithme.
+            # Un sommet accessible est un sommet qui n'est pas à une distance infinie du sommet de départ.
             sommets_accessibles = list(
                 filter(lambda cellule: not cellule.final and not cellule.infini, self.matrice_dijkstra[-1])
             )
 
-            # S'il n'y a aucun sommet accessible, fin de l'algo
+            # S'il n'y a aucun sommet accessible en dehors de ceux dans le CC, on peut arrêter l'algorithme.
             if not sommets_accessibles:
                 # Toutes les valeurs de la dernière ligne sont finales
                 for sommet in self.matrice_dijkstra[-1]:
                     sommet.final = True
                 break
 
-            # On cherche le sommet ayant une distance minimum au sommet initial, et on l'ajoute au CC
+            # Sinon, il reste des sommets accessibles en dehors du CC.
+            # On cherche le sommet hors CC ayant une distance minimum au sommet initial, et on l'ajoute au CC
             self._ajouter_sommet_minimum()
 
+        # Toutes les itérations ont été effectuées, ou l'algorithme s'est arrêté plus tôt car certains sommets
+        # n'étaient pas accessibles depuis le sommet de départ. Dans tous les cas, on peut désormais afficher
+        # le résultat.
         return self._affichage()
 
     def _prochaine_ligne(self) -> None:
         """
         Crée et ajoute la prochaine ligne de l'algorithme à la matrice de dijkstra.
         """
-        # On récupère les valeurs des arêtes issues du dernier sommet ajouté
+        # On récupère les valeurs des arêtes issues du dernier sommet ajouté, depuis la matrice de valeur
         valeurs = self.matrice_valeurs[self.dernier_sommet_ajoute]
         ligne_precedente = self.matrice_dijkstra[-1]
 
-        # On copie la ligne précédente (on fait une copie pour éviter que modifier une cellule en modifie d'autres)
+        # On copie la ligne précédente, puis on l'ajoute à la matrice de dijkstra (pi)
         ligne_actuelle = [copy(ligne_precedente[sommet]) for sommet in self.sommets]
         self.matrice_dijkstra.append(ligne_actuelle)
 
-        # On bloque l'ancienne cellule, car elle est désormais finale. Elle ne changera plus.
+        # On bloque l'ancienne cellule (celle du dernier sommet ajouté), car elle est désormais finale.
+        # Sa valeur ne changera plus.
         ligne_actuelle[self.dernier_sommet_ajoute].final = True
 
-        # Pour chaque sommet, s'il est successeur du dernier sommet ajouté, on met à jour sa valeur
+        # Pour chaque sommet, s'il est successeur du dernier sommet ajouté,
+        # on met à jour sa valeur car elle peut avoir changé.
         for sommet, valeur_arete in enumerate(valeurs):
             # Si le sommet est dans CC, pas besoin de mettre sa valeur à jour : on s'arrête
             if sommet in self.cc:
                 continue
 
             # valeur = None signifie qu'il n'y a pas d'arête entre le dernier sommet ajouté et celui-ci.
-            # L'ancienne cellule est donc toujours celle à la distance la plus courte, on n'a donc rien à faire.
+            # L'ancienne cellule est donc toujours celle à la distance la plus courte, il ne faut rien faire.
             if valeur_arete is None:
                 continue
 

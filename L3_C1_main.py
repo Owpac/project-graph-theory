@@ -14,7 +14,6 @@ def main():
         graphe.afficher()
 
         print('\n====== Calcul du plus court chemin ======')
-        algo_choisi = 2
         if graphe.dijkstra_possible:
             print("Le graphe ne possède pas d'arête à valeur négative.")
             print("Vous pouvez donc choisir l'algorithme :")
@@ -23,6 +22,7 @@ def main():
             algo_choisi = demander_nombre(1, 2)
         else:
             print("Le graphe possède une arête à valeur négative. On utilisera donc l'algortihme de Bellman.")
+            algo_choisi = 2
 
         print('\nPar quel sommet commencer ?')
         print('Sommets possibles:', *graphe.sommets)

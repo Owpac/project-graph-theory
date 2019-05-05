@@ -69,7 +69,7 @@ def affichage_matrice(matrice: List[List[Any]], titres_colonnes: List[Any], titr
             format_string = " {:^{}}"
             taille_valeur = taille_maximum - 2
 
-            if len(str(valeur)) % 2 == 0:
+            if len(str(valeur)) % 2 == 0 and taille_valeur % 2 == 1:
                 format_string = " " + format_string
                 taille_valeur -= 1
 
