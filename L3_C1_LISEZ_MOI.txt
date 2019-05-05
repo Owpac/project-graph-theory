@@ -1,0 +1,25 @@
+Pour lancer le projet, 2 solutions :
+- Double-cliquez sur le fichier "L3_C1_main.py"
+- Ou ouvrez un terminal en ligne de commandes, et utilisez une des trois commandes suivantes :
+	python3 L3_C1_main.py
+	python L3_C1_main.py	( Si la précédente n'a pas fonctionné )
+	py L3_C1_main.py	( Si la précédente n'a pas fonctionné )
+
+La version de Python minimum est Python 3.6.
+
+Vous pouvez vérifier votre version en tapant l'une des trois commandes suivantes :
+	python3 --version
+	python --version	( Si la précédente n'a pas fonctionné )
+	py --version		( Si la précédente n'a pas fonctionné )
+	
+Si votre Python n'a pas la version nécessaire, téléchargez la dernière version pour votre système d'exploitation ici :
+https://www.python.org/downloads/
+
+Finalement, les fichiers ont été nommés avec des underscores "_" car Python ne supporte pas l'utilisation de tirets "-" dans les noms de fichiers Python.
+Pour un soucis d'uniformité, nous avons aussi nommé les fichiers textes avec des underscores à la place de tirets.
+
+Groupe C1.
+Florian ERNST.
+Augustin BOUVET.
+Maxime BOUDIER.
+Thomas FAUGIER.
