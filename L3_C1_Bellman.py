@@ -33,6 +33,10 @@ class BellmanSolveur:
         # Si on trouve une condition de sortie normale (ligne k-1 == ligne k), on retourne directement le résultat
         # Ainsi, si on sort de la boucle for, cela veut dire qu'aucune condition de sortie normale n'a été trouvée.
         # Il y aurait donc un circuit absorbant.
+        #
+        # On a besoin de faire n itérations, car au maximum (dans un graphe sans circuit absorbant), Bellman trouvera
+        # les chemins courts à la n-1ième itération. Il faut donc une dernière itération pour vérifier que
+        # l'itération n-1 est bien la bonne. Si elle ne l'est pas, il y a un circuit absorbant.
         for k in range(1, len(self.sommets) + 1):
             nouvelle_ligne = [Cellule(0, infini=True) for _ in self.sommets]
 
