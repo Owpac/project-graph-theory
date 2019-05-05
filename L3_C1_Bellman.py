@@ -54,11 +54,14 @@ class BellmanSolveur:
 
                 nouvelle_ligne[i] = min((self.pi[-1][i], *valeurs_depuis_predecesseurs))
 
+            # On rajoute la nouvelle ligne à la matrice de dijkstra
+            self.pi.append(nouvelle_ligne)
+
             # L'algorithme se termine quand une itération est similaire à la précédente
-            if nouvelle_ligne == self.pi[-1]:
+            if nouvelle_ligne == self.pi[-2]:
                 # Affichage d'abord du déroulement de l'algorithme :
                 affichage = "Déroulement de l'algorithme de Bellman:\n"
-                affichage += affichage_matrice(self.pi, self.sommets, list(range(k)), titre='k')
+                affichage += affichage_matrice(self.pi, self.sommets, list(range(len(self.pi))), titre='k')
                 ccs = self.trouver_cc()
                 ccs = [None if cc is None else ' '.join(str(sommet) for sommet in cc) for cc in ccs]
 
@@ -67,8 +70,6 @@ class BellmanSolveur:
                 affichage += affichage_matrice([ccs, [v if v.infini else v.valeur for v in self.pi[-1]]],
                                                self.sommets, ['CC', 'Distance'], {None: '/'}, titre="Sommets")
                 return affichage
-
-            self.pi.append(nouvelle_ligne)
 
         # Aucune sortie n'a été effectuée dans la boucle. Il ya donc un circuit absorbant.
         affichage = "Déroulement de l'algorithme de Bellman:\n"
