@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
-
-from L3_C1_entree_utilisateur import poser_question, demander_nombre
-from L3_C1_affichage import affichage_matrice
-
 from L3_C1_Graphe import Graphe
+from L3_C1_entree_utilisateur import poser_question, demander_nombre
 
 
 def main():

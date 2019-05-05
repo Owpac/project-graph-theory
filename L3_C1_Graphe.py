@@ -1,9 +1,8 @@
 from typing import Dict, List, Set, Optional
 
+from L3_C1_Arete import Arete
 from L3_C1_Bellman import BellmanSolveur
 from L3_C1_Dijkstra import DijkstraResolveur
-from L3_C1_Arete import Arete
-
 from L3_C1_affichage import affichage_matrice
 
 

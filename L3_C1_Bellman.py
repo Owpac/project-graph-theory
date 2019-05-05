@@ -78,8 +78,8 @@ class BellmanSolveur:
 
     def predecesseurs(self, i: int) -> Generator[int, None, None]:
         """
-        Renvoie les prédecesseurs d'un sommet donné
-        :param i: le numéro du sommet dont il faut trouver les prédecesseurs
+        Renvoie les prédécesseurs d'un sommet donné
+        :param i: le numéro du sommet dont il faut trouver les prédécesseurs
         :return: un générateur de prédécesseurs
         """
         for potentiel_predecesseur in range(len(self.matrice_valeurs[i])):

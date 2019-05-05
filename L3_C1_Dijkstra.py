@@ -1,5 +1,5 @@
-from typing import List, Optional, Iterable
 from copy import copy
+from typing import List, Optional, Iterable
 
 from L3_C1_Cellule import Cellule
 from L3_C1_affichage import affichage_matrice
@@ -79,7 +79,7 @@ class DijkstraResolveur:
         """
         Crée et ajoute la prochaine ligne de l'algorithme à la matrice de dijkstra.
         """
-        # On récupère les valeurs des arrêtes issues du dernier sommet ajouté
+        # On récupère les valeurs des arêtes issues du dernier sommet ajouté
         valeurs = self.matrice_valeurs[self.dernier_sommet_ajoute]
         ligne_precedente = self.matrice_dijkstra[-1]
 

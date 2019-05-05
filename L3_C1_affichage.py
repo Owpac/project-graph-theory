@@ -1,7 +1,7 @@
 # TODO : 4 param : matrice à afficher; titre des colonnes; titre des lignes; changement d'affichage
 
-from typing import List, Any, Dict
 from itertools import chain
+from typing import List, Any, Dict
 
 
 def affichage_matrice(matrice: List[List[Any]], titres_colonnes: List[Any], titres_lignes: List[Any],
@@ -12,7 +12,7 @@ def affichage_matrice(matrice: List[List[Any]], titres_colonnes: List[Any], titr
     :param matrice: les données du graphe
     :type matrice: List[List[Any]]
     :param titres_colonnes: les titres des colonnes du graphe
-    :param titres_lignes: les tritres des lignes du graphe
+    :param titres_lignes: les titres des lignes du graphe
     :param symboles: Un dictionnaire de symboles. La clé est le symbole lui-même, la valeur
                      est la représentation voulue de ce symbole.
     :return: Le tableau sous forme de string
@@ -79,7 +79,7 @@ def affichage_matrice(matrice: List[List[Any]], titres_colonnes: List[Any], titr
 
     affichage += affichage_delimiteur(len(titres_colonnes), taille_maximum, taille_titre_ligne)
 
-    # On remplace les caractères Unicode causant un décalage par un ensemble de caractères Unicodes sans décalage
+    # On remplace les caractères Unicode causant un décalage par un ensemble de caractères Unicode sans décalage
     return affichage
 
 
